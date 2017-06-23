@@ -570,10 +570,13 @@ namespace vrClusterConfig
             {
                 if (ccType == ClusterCommandType.Run)
                 {
-                    cl = " uvr_node=" + node.id + cmd;
-
+                    // add node specific command line arguments
+                    Viewport vp = node.viewport;
+                    cl = string.Format(" uvr_node={0} WinX={1} WinY={2} ResX={3} ResY={4} {5}",
+                        node.id, vp.x, vp.y, vp.width, vp.height, cmd);
                 }
-                string clusterCmd = commandCmd +cl;
+
+                string clusterCmd = commandCmd + cl;
                 SendDaemonCommand(node.address, clusterCmd);
             }
         }
