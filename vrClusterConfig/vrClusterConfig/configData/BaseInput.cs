@@ -50,9 +50,9 @@ namespace vrClusterConfig
                 }
                 if (columnName == "address" || columnName == validationName)
                 {
-                    if (!ValidationRules.IsAddress(address))
+                    if (!ValidationRules.IsAddressPort(address))
                     {
-                        error = "Input Address in format InputName@127.0.0.1";
+                        error = "Input Address must be in format InputName@127.0.0.1 or InputName@127.0.0.1:1234";
                         AppLogger.Add("ERROR! " + error);
                     }
                 }
@@ -67,7 +67,7 @@ namespace vrClusterConfig
 
         public override bool Validate()
         {
-            bool isValid = ValidationRules.IsName(id) && ValidationRules.IsAddress(address);
+            bool isValid = ValidationRules.IsName(id) && ValidationRules.IsAddressPort(address);
             if (!isValid)
             {
                 AppLogger.Add("ERROR! Errors in Input [" + id + "]");

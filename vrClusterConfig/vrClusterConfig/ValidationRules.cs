@@ -55,5 +55,9 @@ namespace vrClusterConfig
             return Regex.IsMatch(value, "^\\w*@[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}$");
         }
 
+        public static bool IsAddressPort(string value)
+        {
+            return Regex.IsMatch(value, "^\\w*@[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(?::[0-9]{1,5})?$");
+        }
     }
 }

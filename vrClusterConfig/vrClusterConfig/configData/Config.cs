@@ -471,7 +471,7 @@ namespace vrClusterConfig
         public void InputsParse(string line)
         {
             string id = GetRegEx("id").Match(line).Value;
-            string address = GetRegAddr("addr").Match(line).Value;
+            string address = GetRegAddrPort("addr").Match(line).Value;
             string _type = GetRegEx("type").Match(line).Value;
             InputType type = (InputType)Enum.Parse(typeof(InputType), _type, true);
 
@@ -680,6 +680,12 @@ namespace vrClusterConfig
         Regex GetRegAddr(string key)
         {
             Regex reg = new Regex("(?<=" + key + "=)(\\w*)@((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(?=\\s|$)");
+            return reg;
+        }
+
+        Regex GetRegAddrPort(string key)
+        {
+            Regex reg = new Regex("(?<=" + key + "=)(\\w*)@((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]).){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?::[0-9]{1,5})?)(?=\\s|$)");
             return reg;
         }
 
