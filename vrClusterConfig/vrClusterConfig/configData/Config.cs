@@ -474,8 +474,10 @@ namespace vrClusterConfig
             string address = GetRegAddr("addr").Match(line).Value;
             string _type = GetRegEx("type").Match(line).Value;
             InputType type = (InputType)Enum.Parse(typeof(InputType), _type, true);
-            if (type == InputType.tracker)
+
+            switch(type)
             {
+            case InputType.tracker:
                 string loc = GetRegComplex("loc").Match(line).Value;
                 string locX = GetRegProp("X").Match(loc).Value;
                 string locY = GetRegProp("Y").Match(loc).Value;
@@ -488,10 +490,15 @@ namespace vrClusterConfig
                 string right = GetRegEx("right").Match(line).Value;
                 string up = GetRegEx("up").Match(line).Value;
                 inputs.Add(new TrackerInput(id, address, locX, locY, locZ, rotP, rotY, rotR, front, right, up));
-            }
-            else
-            {
-                inputs.Add(new BaseInput(id, type, address));
+                break;
+
+            case InputType.analog:
+                inputs.Add(new AnalogInput(id, address));
+                break;
+
+            case InputType.buttons:
+                inputs.Add(new ButtonsInput(id, address));
+                break;
             }
         }
 

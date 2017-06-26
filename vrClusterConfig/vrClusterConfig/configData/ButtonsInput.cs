@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace vrClusterConfig
 {
-    class AnalogInput : BaseInput
+    class ButtonsInput : BaseInput
     {
-        public AnalogInput(string _id, string _address)
-            : base(_id, InputType.analog, _address)
+        public ButtonsInput(string _id, string _address)
+            : base(_id, InputType.buttons, _address)
         {
         }
     }

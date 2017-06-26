@@ -345,15 +345,23 @@ namespace vrClusterConfig
         {
             if (type != null)
             {
-                if (type == "tracker")
+                InputType currentType = (InputType)System.Enum.Parse(typeof(InputType), type);
+
+                switch(currentType)
                 {
+                case InputType.tracker:
                     currentConfig.inputs.Add(new TrackerInput { id = "TrackerInputId", address = "TrackerInputName@127.0.0.1", locationX = "0", locationY = "0", locationZ = "0", rotationP = "0", rotationR = "0", rotationY = "0", front = "X", right = "Y", up = "-Z" });
+                    break;
+
+                case InputType.analog:
+                    currentConfig.inputs.Add(new AnalogInput("InputId", "InputName@127.0.0.1"));
+                    break;
+
+                case InputType.buttons:
+                    currentConfig.inputs.Add(new ButtonsInput("InputId", "InputName@127.0.0.1"));
+                    break;
                 }
-                else
-                {
-                    InputType currentType = (InputType)System.Enum.Parse(typeof(InputType), type);
-                    currentConfig.inputs.Add(new BaseInput { id = "InputId", type = currentType, address = "InputName@127.0.0.1" });
-                }
+
                 currentConfig.selectedInput = currentConfig.inputs.LastOrDefault();
                 RefreshUiControls();
                 //inputsListBox.Items.Refresh();
