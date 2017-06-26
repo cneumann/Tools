@@ -52,27 +52,11 @@ namespace vrClusterConfig
         }
 
         //Implementation IDataErrorInfo methods for validation
-        public string this[string columnName]
+        public override string this[string columnName]
         {
             get
             {
-                string error = String.Empty;
-                if (columnName == "id" || columnName == validationName)
-                {
-                    if (!ValidationRules.IsName(id))
-                    {
-                        error = "Input ID should contain only letters, numbers and _";
-                        AppLogger.Add("ERROR! " + error);
-                    }
-                }
-                if (columnName == "address" || columnName == validationName)
-                {
-                    if (!ValidationRules.IsAddress(address))
-                    {
-                        error = "Input Address in format InputName@127.0.0.1";
-                        AppLogger.Add("ERROR! " + error);
-                    }
-                }
+                string error = base[columnName];
                 if (columnName == "locationX" || columnName == validationName)
                 {
                     if (!ValidationRules.IsFloat(locationX.ToString()))
@@ -126,21 +110,16 @@ namespace vrClusterConfig
                 return error;
             }
         }
-        public string Error
-        {
-            get { throw new NotImplementedException(); }
-        }
 
-        public new bool Validate()
+        public override bool Validate()
         {
-            bool isValid = ValidationRules.IsName(id) && ValidationRules.IsAddress(address) && ValidationRules.IsFloat(locationX.ToString()) 
+            bool isValid = base.Validate() && ValidationRules.IsFloat(locationX.ToString()) 
                 && ValidationRules.IsFloat(locationY.ToString()) && ValidationRules.IsFloat(locationZ.ToString()) && ValidationRules.IsFloat(rotationP.ToString()) 
                 && ValidationRules.IsFloat(rotationY.ToString()) && ValidationRules.IsFloat(rotationR.ToString());
             if (!isValid)
             {
-                AppLogger.Add("ERROR! Errors in Input [" + id + "]");
+                AppLogger.Add("ERROR! Errors in Tracker Input [" + id + "]");
                 string a = this[validationName];
-
             }
 
             return isValid;

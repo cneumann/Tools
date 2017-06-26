@@ -35,7 +35,7 @@ namespace vrClusterConfig
         }
 
         //Implementation IDataErrorInfo methods for validation
-        public string this[string columnName]
+        public virtual string this[string columnName]
         {
             get
             {
@@ -60,7 +60,7 @@ namespace vrClusterConfig
                 return error;
             }
         }
-        public string Error
+        public virtual string Error
         {
             get { throw new NotImplementedException(); }
         }
@@ -72,9 +72,8 @@ namespace vrClusterConfig
             {
                 AppLogger.Add("ERROR! Errors in Input [" + id + "]");
                 string a = this[validationName];
-               
             }
-            
+
             return isValid;
         }
 
