@@ -565,10 +565,18 @@ namespace vrClusterConfig
         public void ViewportParse(string line)
         {
             string id = GetRegEx("id").Match(line).Value;
-            string x = GetRegEx("x").Match(line).Value;
-            string y = GetRegEx("y").Match(line).Value;
-            string width = GetRegEx("width").Match(line).Value;
-            string height = GetRegEx("height").Match(line).Value;
+            string loc = GetRegComplex("loc").Match(line).Value;
+            string locX = GetRegProp("X").Match(loc).Value;
+            string locY = GetRegProp("Y").Match(loc).Value;
+            string size = GetRegComplex("size").Match(line).Value;
+            string sizeX = GetRegProp("X").Match(size).Value;
+            string sizeY = GetRegProp("Y").Match(size).Value;
+            string winLoc = GetRegComplex("win_loc").Match(line).Value;
+            string winLocX = GetRegProp("X").Match(winLoc).Value;
+            string winLocY = GetRegProp("Y").Match(winLoc).Value;
+            string winSize = GetRegComplex("win_size").Match(line).Value;
+            string winSizeX = GetRegProp("X").Match(winSize).Value;
+            string winSizeY = GetRegProp("Y").Match(winSize).Value;
             string _flip_h = GetRegEx("flip_h").Match(line).Value;
             string _flip_v = GetRegEx("flip_v").Match(line).Value;
             bool flip_h = false;
@@ -581,7 +589,7 @@ namespace vrClusterConfig
             {
                 flip_v = true;
             }
-            viewports.Add(new Viewport(id, x, y, width, height, flip_h, flip_v));
+            viewports.Add(new Viewport(id, locX, locY, sizeX, sizeY, winLocX, winLocY, winSizeX, winSizeY, flip_h, flip_v));
         }
 
         //Camera Parser

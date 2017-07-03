@@ -14,6 +14,10 @@ namespace vrClusterConfig
         public string y { get; set; }
         public string width { get; set; }
         public string height { get; set; }
+        public string winX { get; set; }
+        public string winY { get; set; }
+        public string winWidth { get; set; }
+        public string winHeight { get; set; }
         public bool horizontalFlip { get; set; }
         public bool verticalFlip { get; set; }
 
@@ -24,17 +28,25 @@ namespace vrClusterConfig
             y = "0";
             width = "0";
             height = "0";
+            winX = "0";
+            winY = "0";
+            winWidth = "0";
+            winHeight = "0";
             horizontalFlip = false;
             verticalFlip = false;
         }
 
-        public Viewport(string _id, string _x, string _y, string _width, string _height, bool _horizontalFlip, bool _verticalFlip)
+        public Viewport(string _id, string _x, string _y, string _width, string _height, string _winX, string _winY, string _winWidth, string _winHeight, bool _horizontalFlip, bool _verticalFlip)
         {
             id = _id;
             x = _x;
             y = _y;
             width = _width;
             height = _height;
+            winX = _winX;
+            winY = _winY;
+            winWidth = _winWidth;
+            winHeight = _winHeight;
             horizontalFlip = _horizontalFlip;
             verticalFlip = _verticalFlip;
         }
@@ -77,13 +89,44 @@ namespace vrClusterConfig
                         AppLogger.Add("ERROR! " + error);
                     }
                 }
-
                 if (columnName == "height" || columnName == validationName)
                 {
-                    if (!ValidationRules.IsInt(height.ToString()) || Convert.ToInt32(height) <0)
+                    if (!ValidationRules.IsInt(height.ToString()) || Convert.ToInt32(height) < 0)
                     {
                         error = "Height should be an integer";
                         AppLogger.Add("ERROR! " + error);
+                    }
+                }
+                if (columnName == "winX" || columnName == validationName)
+                {
+                    if (!ValidationRules.IsInt(winX.ToString()))
+                    {
+                        error = "winX should be an integer";
+                        AppLogger.Add("Error! " + error);
+                    }
+                }
+                if (columnName == "winY" || columnName == validationName)
+                {
+                    if (!ValidationRules.IsInt(winY.ToString()))
+                    {
+                        error = "winY should be an integer";
+                        AppLogger.Add("Error! " + error);
+                    }
+                }
+                if (columnName == "winWidth" || columnName == validationName)
+                {
+                    if (!ValidationRules.IsInt(winWidth.ToString()) || Convert.ToInt32(winWidth) < 0)
+                    {
+                        error = "winWidth should be a integer (>= 0)";
+                        AppLogger.Add("Error! " + error);
+                    }
+                }
+                if (columnName == "winHeight" || columnName == validationName)
+                {
+                    if (!ValidationRules.IsInt(winHeight.ToString()) || Convert.ToInt32(winHeight) < 0)
+                    {
+                        error = "winHeight should be a integer (>= 0)";
+                        AppLogger.Add("Error! " + error);
                     }
                 }
                 //switch (columnName)
@@ -134,7 +177,10 @@ namespace vrClusterConfig
         public override bool Validate()
         {
             bool isValid = ValidationRules.IsName(id) && ValidationRules.IsInt(x.ToString()) && ValidationRules.IsInt(y.ToString()) 
-                && (ValidationRules.IsInt(width.ToString()) || Convert.ToInt32(width) > 0) && (ValidationRules.IsInt(height.ToString()) || Convert.ToInt32(height) > 0);
+                && (ValidationRules.IsInt(width.ToString()) || Convert.ToInt32(width) > 0) && (ValidationRules.IsInt(height.ToString()) || Convert.ToInt32(height) > 0)
+                && ValidationRules.IsInt(winX) && ValidationRules.IsInt(winY)
+                && (ValidationRules.IsInt(winWidth) && Convert.ToInt32(winWidth) >= 0)
+                && (ValidationRules.IsInt(winHeight) && Convert.ToInt32(winHeight) >= 0);
             if (!isValid)
             {
                 AppLogger.Add("ERROR! Errors in Viewport [" + id + "]");
@@ -148,7 +194,9 @@ namespace vrClusterConfig
         public override string CreateCfg()
         {
             string stringCfg = "[viewport] ";
-            stringCfg = string.Concat(stringCfg, "id=", id, " x=", x, " y=", y, " width=", width, " height=", height, " flip_h=", horizontalFlip.ToString(), "flip_v=", verticalFlip, "\n");
+            stringCfg = string.Concat(stringCfg, "id=", id, " loc=\"X=", x, ",Y=", y, "\" size=\"X=", width, ",Y=", height,
+                "\" win_loc=\"X=", winX, ",Y=", winY, "\" win_size=\"X=", winWidth, ",Y=", winHeight,
+                "\" flip_h=", horizontalFlip.ToString(), " flip_v=", verticalFlip, "\n");
 
             return stringCfg;
         }
