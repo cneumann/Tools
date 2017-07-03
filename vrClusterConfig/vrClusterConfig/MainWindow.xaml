@@ -950,6 +950,10 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Label Grid.Column="0" Grid.Row="0" Content="Viewport ID" />
                             <TextBox x:Name="viewportIdTb" Grid.Column="1" Grid.Row="0" Style="{DynamicResource NameTB}" Text="{Binding selectedViewport.id, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.HelpText="help text" ToolTip="Viewport ID, you can use letters, numbers and _" />
@@ -961,6 +965,14 @@
                             <TextBox x:Name="viewportWidthTb" Grid.Column="1" Grid.Row="4" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.width, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Width of viewport in pixels" />
                             <Label Grid.Column="0" Grid.Row="5" Content="Height"/>
                             <TextBox x:Name="viewportHeightTb" Grid.Column="1" Grid.Row="5" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.height, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Height of viewport in pixels" />
+                            <Label Grid.Column="0" Grid.Row="6" Content="Window X"/>
+                            <TextBox x:Name="viewportWinXTb" Grid.Column="1" Grid.Row="6" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.winX, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="X coordinate of application window in pixels" />
+                            <Label Grid.Column="0" Grid.Row="7" Content="Window Z"/>
+                            <TextBox x:Name="viewportWinYTb" Grid.Column="1" Grid.Row="7" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.winY, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Y coordinate of application window in pixels" />
+                            <Label Grid.Column="0" Grid.Row="8" Content="Window Width"/>
+                            <TextBox x:Name="viewportWinWidthTb" Grid.Column="1" Grid.Row="8" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.winWidth, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Width of application window in pixels" />
+                            <Label Grid.Column="0" Grid.Row="9" Content="Window Height"/>
+                            <TextBox x:Name="viewportWinHeightTb" Grid.Column="1" Grid.Row="9" Style="{DynamicResource SizeTB}" Text="{Binding selectedViewport.winHeight, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="Height of application window in pixels" />
                         </Grid>
                         <Grid Grid.Row="2">
                             <CheckBox x:Name="isVerticalFlip" Content="Vertical Flip" HorizontalAlignment="Left" Template="{DynamicResource CustomCheckBoxControlTemplate}" IsChecked="{Binding selectedViewport.verticalFlip}" />
@@ -990,14 +1002,14 @@
                            
                             <Canvas Canvas.Left="{Binding mainScreenOffsetX}" Canvas.Top="{Binding mainScreenOffsetY}" Width="{Binding mainScreenWidth}" Height="{Binding mainScreenHeight}" Background="#FF0FBDBD" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0" >
 
-                                <Border x:Name="previewViewport" TextBlock.TextAlignment="Center" Background="#7FB15656" Width="{Binding selectedViewport.width}" Height="{Binding selectedViewport.height}" Canvas.Left="{Binding selectedViewport.x}" Canvas.Top="{Binding selectedViewport.y}" SnapsToDevicePixels="True" >
+                                <Border x:Name="previewViewport" TextBlock.TextAlignment="Center" Background="#7FB15656" Width="{Binding selectedViewport.winWidth}" Height="{Binding selectedViewport.winHeight}" Canvas.Left="{Binding selectedViewport.winX}" Canvas.Top="{Binding selectedViewport.winY}" SnapsToDevicePixels="True" >
                                     <Grid>
                                         <Viewbox Stretch="Uniform" MaxHeight="{Binding ElementName=viewportCanvas, Path=DataContext.textZone }" HorizontalAlignment="{Binding selectedViewport.horizontalFlip, Converter={StaticResource InvertBoolToHorizontalConverter}}" VerticalAlignment="{Binding selectedViewport.verticalFlip, Converter={StaticResource InvertBoolToVerticalConverter}}"  OpacityMask="Black" Opacity="0.5" >
                                             <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center"  >
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="({0},{1})">
-                                                        <Binding Path="selectedViewport.x"/>
-                                                        <Binding Path="selectedViewport.y"/>
+                                                        <Binding Path="selectedViewport.winX"/>
+                                                        <Binding Path="selectedViewport.winY"/>
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
@@ -1009,8 +1021,8 @@
                                             <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center"  >
                                                 <TextBlock.Text>
                                                     <MultiBinding StringFormat="({0},{1})">
-                                                        <Binding Path="selectedViewport.width"/>
-                                                        <Binding Path="selectedViewport.height"/>
+                                                        <Binding Path="selectedViewport.winWidth"/>
+                                                        <Binding Path="selectedViewport.winHeight"/>
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>
