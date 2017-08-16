@@ -510,6 +510,7 @@ namespace vrClusterConfig
             string screen = GetRegEx("screen").Match(line).Value;
             string viewport = GetRegEx("viewport").Match(line).Value;
             string master = GetRegEx("master").Match(line).Value;
+            string gpuAffinity = GetRegEx("gpu_affinity").Match(line).Value;
             bool isMaster = false;
             if (master == "true")
             {
@@ -522,7 +523,7 @@ namespace vrClusterConfig
 
             Screen currentScreen = screens.Find(x => x.id == screen);
             Viewport currentViewport = viewports.Find(x => x.id == viewport);
-            clusterNodes.Add(new ClusterNode(id, address, currentScreen, currentViewport, isMaster));
+            clusterNodes.Add(new ClusterNode(id, address, currentScreen, currentViewport, isMaster, gpuAffinity));
         }
 
         //Scene Node Parser

@@ -1075,6 +1075,7 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0" >
                                     <Grid.ColumnDefinitions>
@@ -1151,6 +1152,18 @@
                                         <ComboBox x:Name="viewportsCb" ItemsSource="{Binding viewports}" DisplayMemberPath="id" SelectedItem="{Binding selectedNode.viewport}" Template="{DynamicResource ComboBoxTemplate}" ToolTip="Select viewport, required"/>
 
 
+                                    </Grid>
+                                </Grid>
+                                <Grid Grid.Row="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column = "0" Width="85" >
+                                        <Label Content="GPU Affinity" />
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <TextBox x:Name="gpuAffinityTb" Style="{DynamicResource NameTB}" Text="{Binding selectedNode.gpuAffinity, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" ToolTip="GPU Affinity of this node - empty or integer >= 0" />
                                     </Grid>
                                 </Grid>
                             </Grid>

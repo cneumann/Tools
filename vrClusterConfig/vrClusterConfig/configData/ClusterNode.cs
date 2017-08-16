@@ -16,6 +16,7 @@ namespace vrClusterConfig
         public string address { get; set; }
         public Screen screen { get; set; }
         public Viewport viewport { get; set; }
+        public string gpuAffinity { get; set; }
         public ClusterNode()
         {
             id = "ClusterNodeId";
@@ -23,15 +24,17 @@ namespace vrClusterConfig
             screen = null;
             viewport = null;
             isMaster = false;
+            gpuAffinity = "";
         }
 
-        public ClusterNode(string _id, string _address, Screen _screen, Viewport _viewport, bool _isMaster)
+        public ClusterNode(string _id, string _address, Screen _screen, Viewport _viewport, bool _isMaster, string _gpuAffinity)
         {
             id = _id;
             address = _address;
             screen = _screen;
             viewport = _viewport;
             isMaster = _isMaster;
+            gpuAffinity = _gpuAffinity;
         }
 
         //Implementation IDataErrorInfo methods for validation
@@ -56,6 +59,14 @@ namespace vrClusterConfig
                         AppLogger.Add("ERROR! " + error);
                     }
                 }
+                if (columnName == "gpuAffinity" || columnName == validationName)
+                {
+                    if (!ValidationRules.IsIntNullable(gpuAffinity))
+                    {
+                        error = "Gpu Affinity must be integer or empty";
+                        AppLogger.Add("ERROR! " + error);
+                    }
+                }
 
                 MainWindow.ConfigModifyIndicator();
                 return error;
@@ -68,7 +79,8 @@ namespace vrClusterConfig
 
         public override bool Validate()
         {
-            bool isValid = ValidationRules.IsName(id) && ValidationRules.IsIp(address);
+            bool isValid = ValidationRules.IsName(id) && ValidationRules.IsIp(address)
+                && ValidationRules.IsIntNullable(gpuAffinity);
             if (!isValid)
             {
                 AppLogger.Add("ERROR! Errors in Clustr Node [" + id + "]");
@@ -100,6 +112,12 @@ namespace vrClusterConfig
                 string portSS = Win.currentConfig.portSs;
                 stringCfg = string.Concat(stringCfg, " port_cs=", portCS, " port_ss=", portSS, " master=true");
             }
+
+            if (!string.IsNullOrEmpty(gpuAffinity))
+            {
+                stringCfg = string.Concat(stringCfg, " gpu_affinity=", gpuAffinity);
+            }
+
             stringCfg = string.Concat(stringCfg, "\n");
             return stringCfg;
         }

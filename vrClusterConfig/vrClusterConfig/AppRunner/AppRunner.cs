@@ -43,6 +43,7 @@ namespace vrClusterConfig
         private const string uvrParamConfig = " uvr_cfg=";     // note:  no need [-] before it
         private const string uvrParamLogFilename = " log=";         // note:  no need [-] before it
         private const string uvrParamCameraDefault = " uvr_camera=";  // note:  no need [-] before it
+        private const string uvrParamGPUAffinty = " GPUAffinity="; // note:  no need [-] before it
 
         // switches
         private const string uvrParamOpenGL3 = " -opengl3";
@@ -565,15 +566,23 @@ namespace vrClusterConfig
             }
 
             // send cmd for each node
-            string cl = string.Empty;
             foreach (ClusterNode node in nodes)
             {
                 if (ccType == ClusterCommandType.Run)
+                string cl = string.Empty;
                 {
                     // add node specific command line arguments
                     Viewport vp = node.viewport;
                     cl = string.Format(" uvr_node={0} WinX={1} WinY={2} ResX={3} ResY={4} {5}",
                         node.id, vp.x, vp.y, vp.width, vp.height, cmd);
+                    cl += " uvr_node=" + node.id;
+
+                    if (!string.IsNullOrEmpty(node.gpuAffinity))
+                    {
+                        cl += uvrParamGPUAffinty + node.gpuAffinity;
+                    }
+
+                    cl += " " + cmd;
                 }
 
                 string clusterCmd = commandCmd + cl;
